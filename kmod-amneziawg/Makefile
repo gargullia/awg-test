@@ -23,12 +23,9 @@ define KernelPackage/amneziawg
 endef
 
 define Build/Prepare
-	$(call Build/Prepare/Default)
-	# Копируем исходники в build-dir
-	#cp -r $(PKG_SOURCE_DIR)/* $(PKG_BUILD_DIR)/
-	cp -fr $(PKG_SOURCE_DIR)/drivers/net/wireguard/{*.c,*.h,selftest/} $(PKG_BUILD_DIR)
+	cp -fr $(LINUX_DIR)/drivers/net/wireguard/{*.c,*.h,selftest/} $(PKG_BUILD_DIR)
 	mkdir -p $(PKG_BUILD_DIR)/uapi
-	cp -f $(PKG_SOURCE_DIR)/include/uapi/linux/wireguard.h $(PKG_BUILD_DIR)/uapi/
+	cp -f $(LINUX_DIR)/include/uapi/linux/wireguard.h $(PKG_BUILD_DIR)/uapi/
 	for patch in `ls files/*`; do \
 		patch -d $(PKG_BUILD_DIR)/ -F3 -t -p0 -i "$$$$(pwd)/$$$${patch}"; \
 	done
